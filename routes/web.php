@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\ArticlesController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +18,54 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+Route::get('/hello', function () {
+    return 'Selamat Datang';
+});
+
+Route::get('/world', function () {
+    return 'World';
+});
+
+
+Route::get('/user/{name}', function ($name) {
+    return 'Nama saya ' . $name;
+});
+
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/about', function () {
+    return 'NIM : 2341760027  ||  Nama : Ahmad Franklyn Bima Aquilla';
+});
+
+
+
+Route::get('/article/{id}', function ($id) {
+    return 'Halaman Artikel dengan' . $id;
+});
+
+Route::get('/user/{name?}', function ($name = 'John') {
+    return 'Nama saya ' . $name;
+});
+
+Route::get('/hello', [WelcomeController::class, 'hello']);
+
+Route::get('/', [HomeController::class, 'index']);
+
+Route::get('/about', [AboutController::class, 'about']);
+
+Route::get('/articles/{id}', [ArticlesController::class, 'articles']);
+
+use App\Http\Controllers\PhotoController;
+
+Route::resource('photos', PhotoController::class);
+
+Route::resource('photos', PhotoController::class)->only([
+    'index', 'show'
+]);
+
+Route::resource('photos', PhotoController::class)->except([
+    'create', 'store', 'update', 'destroy'
+]);
